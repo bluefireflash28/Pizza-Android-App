@@ -1,7 +1,8 @@
 package com.example.cs213_project5;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
 
 /**
  * This class keeps track of the order numbers and lists of all instances in the Pizza Class.
@@ -20,10 +21,18 @@ public class Order {
      * @param pizzaList list of pizzas
      * @param pizzaListString string representations of pizzas
      */
-    public Order(int number, double total,ObservableList<Pizza> pizzaList, ObservableList<String> pizzaListString) {
+    public Order(int number, double total, ObservableList<Pizza> pizzaList, ObservableList<String> pizzaListString) {
         this.number = number;
-        this.pizzaList = FXCollections.observableArrayList(pizzaList);
-        this.pizzaListString = FXCollections.observableArrayList(pizzaListString);
+        this.pizzaList = new ObservableArrayList<>();
+        this.pizzaListString = new ObservableArrayList<>();
+
+        // Add all elements from the provided lists to the custom lists
+        for (int i = 0; i < pizzaList.size(); i++) {
+            this.pizzaList.add(pizzaList.get(i));
+        }
+        for (int i = 0; i < pizzaListString.size(); i++) {
+            this.pizzaListString.add(pizzaListString.get(i));
+        }
         this.total = total;
     }
 
