@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CS213-Project5</string>
+    <string name="main_menu_title">RU Pizza Main Menu</string>
+    <string name="choose_pizza_type">Choose a type of Pizza</string>
+    <string name="chicago_style_pizza">Chicago Style Pizza</string>
+    <string name="ny_style_pizza">New York Style Pizza</string>
+    <string name="check_all_orders">Check All Orders</string>
+    <string name="check_current_order">Check Current Order</string>
 </resources>
