@@ -19,5 +19,11 @@
     <string name="back_to_main_menu">Back to Main Menu</string>
     <string name="place_order">Place Order</string>
     <string name="zero">0</string>
+    <string-array name="pizza_types">
+        <item>Deluxe</item>
+        <item>BBQ Chicken</item>
+        <item>Meatzza</item>
+        <item>Build Your Own</item>
+    </string-array>
 </resources>
 

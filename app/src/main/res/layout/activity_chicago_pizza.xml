@@ -37,6 +37,14 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal">
 
+                <Spinner
+                    android:id="@+id/pizzaTypeSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:entries="@array/pizza_types"
+                    android:spinnerMode="dropdown" />
+
                 <RadioGroup
                     android:id="@+id/pizzaSizeGroup"
                     android:layout_width="wrap_content"
