@@ -37,5 +37,6 @@
     <string name="clear">Clear</string>
     <string name="remove">Remove Pizza</string>
     <string name="place">Place Order</string>
+    <string name = "pizzaPrice">$%1$.2f</string>
 </resources>
 
