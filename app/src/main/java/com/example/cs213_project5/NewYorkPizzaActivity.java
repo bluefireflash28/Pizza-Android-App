@@ -64,6 +64,9 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Get the selected item (if needed)
                 String selectedPizzaType = parent.getItemAtPosition(position).toString();
+                setCrust(selectedPizzaType);
+                addToppings();
+                Log.d("Debug", selectedPizzaType);
 
                 // Get the selected RadioButton ID
                 int checkedId = radioGroup.getCheckedRadioButtonId();
@@ -129,6 +132,66 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 break;
             case "Large":
                 priceText.setText(getString(R.string.pizzaPrice,large));
+                break;
+        }
+    }
+    public void setCrust(String type){
+        ListView availableToppings = findViewById(R.id.availableToppings);
+        TextView crust = findViewById(R.id.crustText);
+        switch(type){
+            case "Deluxe":
+                crust.setText(getString(R.string.brooklyn));
+                availableToppings.setEnabled(false);
+                break;
+            case "BBQ Chicken":
+                crust.setText(getString(R.string.thin));
+                availableToppings.setEnabled(false);
+                break;
+            case "Meatzza":
+                crust.setText(getString(R.string.handtossed));
+                availableToppings.setEnabled(false);
+                break;
+            case "Build Your Own":
+                crust.setText(R.string.handtossed);
+                availableToppings.setEnabled(true);
+                break;
+            default:
+                availableToppings.setEnabled(false);
+                break;
+        }
+    }
+    public void addToppings(){
+        Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
+        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ArrayList<Topping> toppings;
+        ArrayAdapter<Topping> adapter;
+        switch(PizzaTypes.getSelectedItem().toString()){
+            case "Deluxe":
+                toppings = new ArrayList<>(Arrays.asList(Topping.SAUSAGE,Topping.PEPPERONI,Topping.GREEN_PEPPER,Topping.ONION,Topping.MUSHROOM));
+                adapter = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_list_item_1, // Layout for each item
+                        toppings
+                );
+                selectedToppings.setAdapter(adapter);
+                break;
+            case "BBQ Chicken":
+                toppings = new ArrayList<>(Arrays.asList(Topping.BBQ_CHICKEN,Topping.GREEN_PEPPER,Topping.PROVOLONE,Topping.CHEDDAR));
+                adapter = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_list_item_1, // Layout for each item
+                        toppings
+                );
+                selectedToppings.setAdapter(adapter);
+                break;
+            case "Meatzza":
+                toppings = new ArrayList<>(Arrays.asList(Topping.SAUSAGE,Topping.PEPPERONI,Topping.BEEF,Topping.HAM));
+                adapter = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_list_item_1, // Layout for each item
+                        toppings
+                );
+                selectedToppings.setAdapter(adapter);
                 break;
         }
     }
