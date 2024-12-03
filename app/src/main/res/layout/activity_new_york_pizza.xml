@@ -146,12 +146,14 @@
                         android:id="@+id/addTopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="addSelectedTopping"
                         android:text="@string/add_topping" />
 
                     <Button
                         android:id="@+id/removeTopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="removeSelectedTopping"
                         android:text="@string/remove_topping" />
                 </LinearLayout>
 

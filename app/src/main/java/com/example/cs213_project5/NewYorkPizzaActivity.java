@@ -19,11 +19,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class NewYorkPizzaActivity extends AppCompatActivity {
-
+    Object currentTopping = null;
+    private int lastCheckedId = -1; // Track the previous checked ID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +49,25 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 toppings
         );
 
-
-
         availableToppings.setAdapter(adapter);
         availableToppings.setOnItemClickListener((parent, view, position, id) -> {
             // Get the selected item
             String selectedTopping = parent.getItemAtPosition(position).toString();
-
+            currentTopping = parent.getItemAtPosition(position);
             // Display the selected topping
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
+
+        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        selectedToppings.setOnItemClickListener((parent, view, position, id) -> {
+            // Get the selected item
+            String selectedTopping = parent.getItemAtPosition(position).toString();
+            currentTopping = parent.getItemAtPosition(position);
+            // Display the selected topping
+            Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
+        });
+
+
 
 
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
@@ -93,6 +107,15 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (lastCheckedId != -1) {
+                    // Check if the pizza type is "Build your own"
+                    if (!PizzaTypes.getSelectedItem().toString().equals("Build your own")) {
+                        return;
+                    }
+                    switchSize(lastCheckedId, checkedId);
+                }
+                lastCheckedId = checkedId; // Update the lastCheckedId
+
                 // Call a method based on the selected RadioButton
                 if(checkedId==R.id.smallButton){
                     onSizeSelected(getString(R.string.small));
@@ -118,6 +141,9 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 break;
             case "Meatzza":
                 updatePrice(size, 17.99, 19.99, 21.99);
+                break;
+            case "Build Your Own":
+                updatePrice(size, 8.99,10.99,12.99);
                 break;
         }
     }
@@ -193,9 +219,182 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 );
                 selectedToppings.setAdapter(adapter);
                 break;
+            case "Build Your Own":
+                toppings = new ArrayList<>();
+                adapter = new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_list_item_1, // Layout for each item
+                        toppings
+                );
+                selectedToppings.setAdapter(adapter);
+                break;
         }
     }
-        public void launchMenu(View v){
+        public void addSelectedTopping(View view){
+            TextView priceText = findViewById(R.id.priceText);
+            if(priceText.getText().toString().isEmpty()){
+                Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ListView availableToppings = findViewById(R.id.availableToppings);
+            ListView chosenToppings = findViewById(R.id.selectedToppings);
+            ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
+            ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
+            ArrayList<Topping> chooseToppings = new ArrayList<>();
+            ArrayList<Topping> selectedToppings = new ArrayList<>();
+            if(adapter2.getCount()>=7){
+                return;
+            }
+            if (adapter != null) {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    chooseToppings.add(adapter.getItem(i)); // Add each item to the ArrayList
+                }
+            }
+            if(adapter!=null){
+                for(int i = 0; i<adapter2.getCount();i++){
+                    selectedToppings.add(adapter2.getItem(i));
+                }
+            }
+
+            if(!chooseToppings.contains(currentTopping)){
+                return;
+            }
+            selectedToppings.add((Topping) currentTopping);
+            chooseToppings.remove((Topping)currentTopping);
+
+            double oldPrice = Double.parseDouble(priceText.getText().toString());
+            double newPrice = oldPrice + 1.69;
+            newPrice = Math.round(newPrice * 100.0) / 100.0;
+            priceText.setText(getString(R.string.pizzaPrice,newPrice));
+
+            ArrayAdapter<Topping> availableAdapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_list_item_1, // Layout for each item
+                    chooseToppings
+            );
+            ArrayAdapter<Topping> selectedAdapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_list_item_1, // Layout for each item
+                    selectedToppings
+            );
+
+
+            availableToppings.setAdapter(availableAdapter);
+            chosenToppings.setAdapter(selectedAdapter);
+        }
+
+    public void removeSelectedTopping(View view){
+        TextView priceText = findViewById(R.id.priceText);
+        double [] arr = {8.99,10.99,12.99};
+        if(priceText.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        for(double i : arr){
+            if(Double.parseDouble(priceText.getText().toString())==i) {
+                Toast.makeText(getApplicationContext(), "Add a Topping", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        ListView availableToppings = findViewById(R.id.availableToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
+        ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
+        ArrayList<Topping> chooseToppings = new ArrayList<>();
+        ArrayList<Topping> selectedToppings = new ArrayList<>();
+        if (adapter != null) {
+            for (int i = 0; i < adapter.getCount(); i++) {
+                chooseToppings.add(adapter.getItem(i)); // Add each item to the ArrayList
+            }
+        }
+        if(adapter!=null){
+            for(int i = 0; i<adapter2.getCount();i++){
+                selectedToppings.add(adapter2.getItem(i));
+            }
+        }
+
+        if(chooseToppings.contains((Topping) currentTopping)){
+            Toast.makeText(getApplicationContext(), "Choose Selected Topping", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        selectedToppings.remove((Topping) currentTopping);
+        chooseToppings.add((Topping)currentTopping);
+
+        double oldPrice = Double.parseDouble(priceText.getText().toString());
+        double newPrice = oldPrice - 1.69;
+        newPrice = Math.round(newPrice * 100.0) / 100.0;
+        priceText.setText(getString(R.string.pizzaPrice,newPrice));
+
+        ArrayAdapter<Topping> availableAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1, // Layout for each item
+                chooseToppings
+        );
+        ArrayAdapter<Topping> selectedAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1, // Layout for each item
+                selectedToppings
+        );
+
+
+        availableToppings.setAdapter(availableAdapter);
+        chosenToppings.setAdapter(selectedAdapter);
+    }
+    private void switchSize(int oldCheckedId, int newCheckedId) {
+        Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
+        TextView price = findViewById(R.id.priceText);
+
+
+
+        // Mapping of price differences
+        Map<String, Double> priceDifferences = new HashMap<>();
+        priceDifferences.put("small-medium", 2.0);
+        priceDifferences.put("small-large", 4.0);
+        priceDifferences.put("medium-small", -2.0);
+        priceDifferences.put("medium-large", 2.0);
+        priceDifferences.put("large-medium", -2.0);
+        priceDifferences.put("large-small", -4.0);
+
+        // Get the text of the old and new buttons
+        RadioButton oldButton = findViewById(oldCheckedId);
+        RadioButton newButton = findViewById(newCheckedId);
+
+        String oldButtonText = oldButton.getText().toString().toLowerCase();
+        String newButtonText = newButton.getText().toString().toLowerCase();
+
+        // Form the key for the price difference map
+        String key = oldButtonText + "-" + newButtonText;
+
+        // Update the price if the key exists
+        if (priceDifferences.containsKey(key)) {
+            double oldPrice = Double.parseDouble(price.getText().toString());
+            double priceChange = priceDifferences.get(key);
+            double newPrice = oldPrice + priceChange;
+            newPrice = Math.round(newPrice * 100.0) / 100.0;
+            price.setText(String.valueOf(newPrice));
+        }
+    }
+    private void setPriceComboBox(String newValue){
+
+        if(!newValue.equals("Build Your Own")){
+            return;
+        }
+        switch(getSelectedButtonText()){
+            case "Small":
+                price.setText("8.99");
+                break;
+            case "Medium":
+                price.setText("10.99");
+                break;
+            case "Large":
+                price.setText("12.99");
+                break;
+            default:
+                price.setText("0");
+        }
+    }
+
+    public void launchMenu(View v){
             Log.d("Debug", "launchMenu triggered");
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
