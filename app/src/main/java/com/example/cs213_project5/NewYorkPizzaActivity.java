@@ -107,14 +107,6 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (lastCheckedId != -1) {
-                    // Check if the pizza type is "Build your own"
-                    if (!PizzaTypes.getSelectedItem().toString().equals("Build your own")) {
-                        return;
-                    }
-                    switchSize(lastCheckedId, checkedId);
-                }
-                lastCheckedId = checkedId; // Update the lastCheckedId
 
                 // Call a method based on the selected RadioButton
                 if(checkedId==R.id.smallButton){
@@ -374,25 +366,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             price.setText(String.valueOf(newPrice));
         }
     }
-    private void setPriceComboBox(String newValue){
 
-        if(!newValue.equals("Build Your Own")){
-            return;
-        }
-        switch(getSelectedButtonText()){
-            case "Small":
-                price.setText("8.99");
-                break;
-            case "Medium":
-                price.setText("10.99");
-                break;
-            case "Large":
-                price.setText("12.99");
-                break;
-            default:
-                price.setText("0");
-        }
-    }
 
     public void launchMenu(View v){
             Log.d("Debug", "launchMenu triggered");
