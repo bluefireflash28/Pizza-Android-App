@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -48,7 +49,6 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, // Layout for each item
                 toppings
         );
-
         availableToppings.setAdapter(adapter);
         availableToppings.setOnItemClickListener((parent, view, position, id) -> {
             // Get the selected item
@@ -91,15 +91,11 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                     onSizeSelected(getString(R.string.large));
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Handle the case when no item is selected (optional)
             }
         });
-
-
-
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -174,28 +170,44 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
     public void setCrust(String type){
         ListView availableToppings = findViewById(R.id.availableToppings);
         TextView crust = findViewById(R.id.crustText);
+        Button addTopping = (Button) findViewById(R.id.addTopping);
+        Button removeTopping = (Button) findViewById(R.id.removeTopping);
         switch(type){
             case "Deluxe":
                 crust.setText(getString(R.string.brooklyn));
                 availableToppings.setEnabled(false);
+                addTopping.setEnabled(false);
+                removeTopping.setEnabled(false);
                 break;
             case "BBQ Chicken":
                 crust.setText(getString(R.string.thin));
                 availableToppings.setEnabled(false);
+                addTopping.setEnabled(false);
+                removeTopping.setEnabled(false);
                 break;
             case "Meatzza":
                 crust.setText(getString(R.string.handtossed));
                 availableToppings.setEnabled(false);
+                addTopping.setEnabled(false);
+                removeTopping.setEnabled(false);
                 break;
             case "Build Your Own":
                 crust.setText(R.string.handtossed);
                 availableToppings.setEnabled(true);
+                addTopping.setEnabled(true);
+                removeTopping.setEnabled(true);
                 break;
             default:
                 availableToppings.setEnabled(false);
+                addTopping.setEnabled(false);
+                removeTopping.setEnabled(false);
                 break;
         }
     }
+
+    /**
+     * Method adds topping to the pizza depending on which type of pizza it is.
+     */
     public void addToppings(){
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
         ListView selectedToppings = findViewById(R.id.selectedToppings);
@@ -240,6 +252,10 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    /**
+     * add a Topping to the Build Your Own Pizza.
+     */
     public void addSelectedTopping(View view){
         TextView priceText = findViewById(R.id.priceText);
         if(priceText.getText().toString().isEmpty()){
@@ -293,6 +309,9 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
         chosenToppings.setAdapter(selectedAdapter);
     }
 
+    /**
+     * Method to remove Topping from Build Your Own Pizza.
+     */
     public void removeSelectedTopping(View view){
         TextView priceText = findViewById(R.id.priceText);
         double [] arr = {8.99,10.99,12.99};
@@ -334,7 +353,6 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
         double newPrice = oldPrice - 1.69;
         newPrice = Math.round(newPrice * 100.0) / 100.0;
         priceText.setText(getString(R.string.pizzaPrice,newPrice));
-
         ArrayAdapter<Topping> availableAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, // Layout for each item
@@ -346,45 +364,13 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
                 selectedToppings
         );
 
-
         availableToppings.setAdapter(availableAdapter);
         chosenToppings.setAdapter(selectedAdapter);
     }
 
-    private void switchSize(int oldCheckedId, int newCheckedId) {
-        Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-        TextView price = findViewById(R.id.priceText);
-
-        // Mapping of price differences
-        Map<String, Double> priceDifferences = new HashMap<>();
-        priceDifferences.put("small-medium", 2.0);
-        priceDifferences.put("small-large", 4.0);
-        priceDifferences.put("medium-small", -2.0);
-        priceDifferences.put("medium-large", 2.0);
-        priceDifferences.put("large-medium", -2.0);
-        priceDifferences.put("large-small", -4.0);
-
-        // Get the text of the old and new buttons
-        RadioButton oldButton = findViewById(oldCheckedId);
-        RadioButton newButton = findViewById(newCheckedId);
-
-        String oldButtonText = oldButton.getText().toString().toLowerCase();
-        String newButtonText = newButton.getText().toString().toLowerCase();
-
-        // Form the key for the price difference map
-        String key = oldButtonText + "-" + newButtonText;
-
-        // Update the price if the key exists
-        if (priceDifferences.containsKey(key)) {
-            double oldPrice = Double.parseDouble(price.getText().toString());
-            double priceChange = priceDifferences.get(key);
-            double newPrice = oldPrice + priceChange;
-            newPrice = Math.round(newPrice * 100.0) / 100.0;
-            price.setText(String.valueOf(newPrice));
-        }
-    }
-
-
+    /**
+     * Method to return to the main menu.
+     */
     public void launchMenu(View v){
         Log.d("Debug", "launchMenu triggered");
         Intent i = new Intent(this, MainActivity.class);
