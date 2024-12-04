@@ -33,33 +33,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Spinner
-                    android:id="@+id/pizzaTypeSpinner"
+                    android:id="@+id/PizzaTypes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
+                    android:layout_height="48dp"
+                    android:layout_marginRight="48dp"
                     android:entries="@array/pizza_types"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:visibility="visible" />
 
                 <RadioGroup
-                    android:id="@+id/pizzaSizeGroup"
+                    android:id="@+id/pizzaSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RadioButton
                         android:id="@+id/smallButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/small" />
+
                     <RadioButton
                         android:id="@+id/mediumButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/medium" />
+
                     <RadioButton
                         android:id="@+id/largeButton"
                         android:layout_width="wrap_content"
@@ -79,37 +83,31 @@
                     android:layout_height="29dp"
                     android:text="@string/crust" />
 
-                <EditText
-                    android:id="@+id/crust"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="@string/thin"
-                    android:inputType="none" />
+                <TextView
+                    android:id="@+id/crustText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <!-- Price Field -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="29dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/price" />
 
-                <EditText
-                    android:id="@+id/price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:inputType="none"
-                    android:text="@string/zero" />
+                <TextView
+                    android:id="@+id/priceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -148,12 +146,14 @@
                         android:id="@+id/addTopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="addSelectedTopping"
                         android:text="@string/add_topping" />
 
                     <Button
                         android:id="@+id/removeTopping"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="removeSelectedTopping"
                         android:text="@string/remove_topping" />
                 </LinearLayout>
 
@@ -185,9 +185,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/backToMenuButton"
+                    android:id="@+id/menuButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="launchMenu"
                     android:text="@string/back_to_main_menu" />
 
                 <Button

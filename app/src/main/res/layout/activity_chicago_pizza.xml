@@ -38,7 +38,7 @@
                 android:gravity="center_horizontal">
 
                 <Spinner
-                    android:id="@+id/pizzaTypeSpinner"
+                    android:id="@+id/PizzaTypes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
@@ -46,7 +46,7 @@
                     android:spinnerMode="dropdown" />
 
                 <RadioGroup
-                    android:id="@+id/pizzaSizeGroup"
+                    android:id="@+id/pizzaSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -178,10 +178,12 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal">
+
                 <Button
-                    android:id="@+id/backToMenuButton"
+                    android:id="@+id/menuButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="launchMenu"
                     android:text="@string/back_to_main_menu" />
                 <Button
                     android:id="@+id/placeOrderButton"
