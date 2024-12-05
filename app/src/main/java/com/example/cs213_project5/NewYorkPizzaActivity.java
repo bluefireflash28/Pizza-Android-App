@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,12 +19,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 public class NewYorkPizzaActivity extends AppCompatActivity {
     Object currentTopping = null;
@@ -58,7 +53,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
 
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         selectedToppings.setOnItemClickListener((parent, view, position, id) -> {
             // Get the selected item
             String selectedTopping = parent.getItemAtPosition(position).toString();
@@ -118,7 +113,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
         String type = spinner.getSelectedItem().toString();
         Log.d("TAG", type);
 
-        ListView selectedToppingsListView = findViewById(R.id.selectedToppings);
+        ListView selectedToppingsListView = findViewById(R.id.selectedToppingsChicago);
         int numToppings = selectedToppingsListView.getAdapter() != null ? selectedToppingsListView.getAdapter().getCount() : 0;
         double toppingCost = 1.69 * numToppings; // Each topping costs 1.69
 
@@ -210,7 +205,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
      */
     public void addToppings(){
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayList<Topping> toppings;
         ArrayAdapter<Topping> adapter;
         switch(PizzaTypes.getSelectedItem().toString()){
@@ -263,7 +258,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             return;
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();
@@ -326,7 +321,7 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             }
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();

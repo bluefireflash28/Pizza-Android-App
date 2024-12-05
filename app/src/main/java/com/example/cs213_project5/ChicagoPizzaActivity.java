@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,23 +19,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 
 public class ChicagoPizzaActivity extends AppCompatActivity {
-
     Object currentTopping = null;
     private int lastCheckedId = -1; // Track the previous checked ID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_new_york_pizza);
+        setContentView(R.layout.activity_chicago_pizza);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -59,8 +52,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             // Display the selected topping
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
-
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         selectedToppings.setOnItemClickListener((parent, view, position, id) -> {
             // Get the selected item
             String selectedTopping = parent.getItemAtPosition(position).toString();
@@ -68,9 +60,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             // Display the selected topping
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
-
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-
 // Set up the OnItemSelectedListener
         PizzaTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,11 +88,9 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
                 // Handle the case when no item is selected (optional)
             }
         });
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
                 // Call a method based on the selected RadioButton
                 if(checkedId==R.id.smallButton){
                     onSizeSelected(getString(R.string.small));
@@ -120,7 +108,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
         String type = spinner.getSelectedItem().toString();
         Log.d("TAG", type);
 
-        ListView selectedToppingsListView = findViewById(R.id.selectedToppings);
+        ListView selectedToppingsListView = findViewById(R.id.selectedToppingsChicago);
         int numToppings = selectedToppingsListView.getAdapter() != null ? selectedToppingsListView.getAdapter().getCount() : 0;
         double toppingCost = 1.69 * numToppings; // Each topping costs 1.69
 
@@ -156,7 +144,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
     }
 
     public void updatePrice(String size, double small, double medium, double large){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         switch(size){
             case "Small":
                 priceText.setText(getString(R.string.pizzaPrice,small));
@@ -172,7 +160,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
 
     public void setCrust(String type){
         ListView availableToppings = findViewById(R.id.availableToppings);
-        TextView crust = findViewById(R.id.crustText);
+        TextView crust = findViewById(R.id.crustTextChicago);
         Button addTopping = (Button) findViewById(R.id.addTopping);
         Button removeTopping = (Button) findViewById(R.id.removeTopping);
         switch(type){
@@ -213,7 +201,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      */
     public void addToppings(){
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayList<Topping> toppings;
         ArrayAdapter<Topping> adapter;
         switch(PizzaTypes.getSelectedItem().toString()){
@@ -260,13 +248,13 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      * add a Topping to the Build Your Own Pizza.
      */
     public void addSelectedTopping(View view){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         if(priceText.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
             return;
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();
@@ -316,7 +304,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      * Method to remove Topping from Build Your Own Pizza.
      */
     public void removeSelectedTopping(View view){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         double [] arr = {8.99,10.99,12.99};
         if(priceText.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
@@ -329,7 +317,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             }
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();
