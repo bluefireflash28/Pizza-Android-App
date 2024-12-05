@@ -21,6 +21,9 @@
     <string name="zero">0</string>
     <string name = "brooklyn">Brooklyn</string>
     <string name = "handtossed">Hand-tossed</string>
+    <string name = "deepdish">Deep Dish</string>
+    <string name = "pan">Pan</string>
+    <string name = "stuffed">Stuffed</string>
     <string-array name="pizza_types">
         <item>Deluxe</item>
         <item>BBQ Chicken</item>
