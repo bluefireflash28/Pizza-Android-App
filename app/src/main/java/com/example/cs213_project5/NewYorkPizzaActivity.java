@@ -1,5 +1,7 @@
 package com.example.cs213_project5;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,7 @@ import java.util.Objects;
 
 public class NewYorkPizzaActivity extends AppCompatActivity {
     Object currentTopping = null;
+    CurrentOrderActivity currentOrderActivity = new CurrentOrderActivity();
     private int lastCheckedId = -1; // Track the previous checked ID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,68 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             }
         });
     }
+    public void placeOrder(View view) {
+        ArrayList<Pizza> orders = StateManager.getInstance().getCurrentOrders();
+        ArrayList<String> ordersStrings = StateManager.getInstance().getCurrentOrdersStrings();
+        if(getPizzaSize() ==null || getPizzaSize() == null){
+            Toast.makeText(getApplicationContext(), "Make a pizza", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!getPizzaType().equals("Build Your Own")) {
+            Pizza a = currentOrderActivity.addNYPizza(getPizzaSize(),getPizzaType());
+            showOrderPopup();
+            ordersStrings.add(a.toString());
+            orders.add(a);
+        } else {
+            ListView selectedToppings = findViewById(R.id.selectedToppings);
+            ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) selectedToppings.getAdapter();
+            ArrayList<Topping> toppingList = new ArrayList<>();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                toppingList.add(adapter.getItem(i));
+            }
+            Pizza b = currentOrderActivity.addNYPizzaBYO(getPizzaSize(), toppingList);
+            showOrderPopup();
+            ordersStrings.add(b.toString());
+            orders.add(b);
+        }
+    }
+    public void showOrderPopup(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title")
+                .setMessage("Order Placed")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Action for "Cancel" button
+                        dialog.dismiss(); // Dismiss the dialog
+                    }
+                });
+
+// Show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+    public String getPizzaType(){
+        Spinner spinner = findViewById(R.id.PizzaTypes);
+        String type = spinner.getSelectedItem().toString();
+        return type;
+    }
+    public String getPizzaSize(){
+        RadioGroup radioGroup = findViewById(R.id.pizzaSize);
+        int checkedId = radioGroup.getCheckedRadioButtonId();
+        if(checkedId==R.id.smallButton){
+            return "small";
+        } else if(checkedId==R.id.mediumButton){
+            return "medium";
+        } else if(checkedId==R.id.largeButton){
+            return "large";
+        }
+        Log.d("TAG", "NULL SIZE RETURNED ");
+        return null;
+    }
+
 
     public void onSizeSelected(String size) {
         Spinner spinner = findViewById(R.id.PizzaTypes);

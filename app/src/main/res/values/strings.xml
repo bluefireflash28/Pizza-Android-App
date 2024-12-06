@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">CS213-Project5</string>
+    <string name="CurrentOrder">Current Order</string>
     <string name="main_menu_title">RU Pizza Main Menu</string>
     <string name="choose_pizza_type">Choose a type of Pizza</string>
     <string name="chicago_style_pizza">Chicago Style Pizza</string>
@@ -32,7 +33,7 @@
     </string-array>
     <string name="orders">Store Orders</string>
     <string name="orderNumber">Order Number</string>
-    <string name="orderTotal">Order Total (Tax Included): $</string>
+    <string name="orderTotal">Order Total: $</string>
     <string name="total">Order Total $</string>
     <string name="zeros">0.00</string>
     <string name="cancel">Cancel Order</string>

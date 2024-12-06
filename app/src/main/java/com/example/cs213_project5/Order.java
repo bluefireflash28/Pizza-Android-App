@@ -1,8 +1,7 @@
 package com.example.cs213_project5;
 
 
-import androidx.databinding.ObservableArrayList;
-import androidx.databinding.ObservableList;
+import java.util.ArrayList;
 
 /**
  * This class keeps track of the order numbers and lists of all instances in the Pizza Class.
@@ -10,8 +9,8 @@ import androidx.databinding.ObservableList;
  */
 public class Order {
     private int number;
-    private ObservableList<Pizza> pizzaList;
-    private ObservableList<String> pizzaListString;
+    private ArrayList<Pizza> pizzaList;
+    private ArrayList<String> pizzaListString;
     double total;
 
     /**
@@ -21,10 +20,10 @@ public class Order {
      * @param pizzaList list of pizzas
      * @param pizzaListString string representations of pizzas
      */
-    public Order(int number, double total, ObservableList<Pizza> pizzaList, ObservableList<String> pizzaListString) {
+    public Order(int number, double total, ArrayList<Pizza> pizzaList, ArrayList<String> pizzaListString) {
         this.number = number;
-        this.pizzaList = new ObservableArrayList<>();
-        this.pizzaListString = new ObservableArrayList<>();
+        this.pizzaList = new ArrayList<>();
+        this.pizzaListString = new ArrayList<>();
 
         // Add all elements from the provided lists to the custom lists
         for (int i = 0; i < pizzaList.size(); i++) {
@@ -40,7 +39,7 @@ public class Order {
      * getter for  pizzas string list
      * @return pizza string list
      */
-    public ObservableList<String> getPizzaListString(){
+    public ArrayList<String> getPizzaListString(){
         return pizzaListString;
     }
 

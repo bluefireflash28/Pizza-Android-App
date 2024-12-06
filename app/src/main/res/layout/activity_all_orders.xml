@@ -7,94 +7,92 @@
     android:layout_height="match_parent"
     tools:context=".AllOrdersActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <!-- Title Text -->
         <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_width="207dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="28dp"
             android:text="@string/orders"
-            android:textSize="25sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp" />
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.544"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Order Number Label -->
         <TextView
-            android:id="@+id/orderNumberLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:layout_width="139dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="120dp"
             android:text="@string/orderNumber"
-            android:layout_below="@id/titleText"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="16dp" />
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Order Total Label -->
         <TextView
-            android:id="@+id/orderTotalLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_width="139dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:text="@string/orderTotal"
-            android:layout_below="@id/titleText"
-            android:layout_toEndOf="@id/orderNumberLabel"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="16dp" />
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <!-- Order Total EditText -->
-        <EditText
-            android:id="@+id/orderTotal"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/orderTotalLabel"
-            android:layout_alignStart="@id/orderTotalLabel"
-            android:layout_marginTop="8dp"
-            android:inputType="numberDecimal"
-            android:hint="@string/zeros" />
-
-        <!-- Order Number Dropdown (Spinner) -->
         <Spinner
-            android:id="@+id/orderNumberSpinner"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/orderNumberLabel"
-            android:layout_alignStart="@id/orderNumberLabel"
-            android:layout_marginTop="8dp" />
+            android:id="@+id/spinner"
+            android:layout_width="203dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <!-- Orders ListView -->
         <ListView
-            android:id="@+id/ordersList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@+id/orderNumberSpinner"
+            android:id="@+id/allOrders"
+            android:layout_width="309dp"
+            android:layout_height="343dp"
             android:layout_marginTop="16dp"
-            android:layout_weight="1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderTotal" />
 
-        <!-- Cancel Order Button -->
+        <TextView
+            android:id="@+id/orderTotal"
+            android:layout_width="165dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="72dp"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
         <Button
-            android:id="@+id/cancelOrderButton"
+            android:id="@+id/button6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="76dp"
+            android:onClick="cancelOrder"
             android:text="@string/cancel"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentStart="true" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-
-        <!-- Back to Main Menu Button -->
         <Button
-            android:id="@+id/backToMainButton"
+            android:id="@+id/button9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/cancelOrderButton"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="-48dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="76dp"
             android:onClick="launchMenu"
-            android:text="@string/back_to_main_menu" />
-
-    </RelativeLayout>
-
+            android:text="@string/back_to_main_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
