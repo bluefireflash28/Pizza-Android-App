@@ -263,6 +263,7 @@ public class CurrentOrderActivity extends AppCompatActivity {
         );
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
+        Button orderButton = findViewById(R.id.orderButton);
+        orderButton.setEnabled(!StateManager.getInstance().getCurrentOrders().isEmpty());
     }
-
 }

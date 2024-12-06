@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.RadioButton;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -120,7 +120,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             ordersStrings.add(a.toString());
             orders.add(a);
         } else {
-            ListView selectedToppings = findViewById(R.id.selectedToppings);
+            ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
             ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) selectedToppings.getAdapter();
             ArrayList<Topping> toppingList = new ArrayList<>();
             for (int i = 0; i < adapter.getCount(); i++) {

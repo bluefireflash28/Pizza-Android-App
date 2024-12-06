@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".ChicagoPizzaActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <!-- Title Text -->
         <TextView
@@ -22,6 +24,7 @@
             android:textSize="33sp"
             android:textStyle="bold" />
 
+
         <LinearLayout
             android:id="@+id/mainLayout"
             android:layout_width="match_parent"
@@ -30,12 +33,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal">
+
 
                 <Spinner
                     android:id="@+id/PizzaTypes"
@@ -44,6 +49,7 @@
                     android:layout_marginRight="8dp"
                     android:entries="@array/pizza_types"
                     android:spinnerMode="dropdown" />
+
 
                 <RadioGroup
                     android:id="@+id/pizzaSize"
@@ -68,6 +74,7 @@
                 </RadioGroup>
             </LinearLayout>
 
+
             <!-- Crust Field -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/crust" />
 
+
                 <TextView
                     android:id="@+id/crustTextChicago"
                     android:layout_width="wrap_content"
@@ -86,6 +94,7 @@
                     android:layout_weight="1"
                     android:text="@string/thin" />
             </LinearLayout>
+
 
             <!-- Price Field -->
             <LinearLayout
@@ -97,6 +106,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/price" />
 
+
                 <TextView
                     android:id="@+id/priceTextChicago"
                     android:layout_width="wrap_content"
@@ -105,12 +115,14 @@
                     android:text="@string/zeros" />
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
+
 
                 <!-- Available Toppings -->
                 <LinearLayout
@@ -128,12 +140,14 @@
                         android:layout_height="150dp" />
                 </LinearLayout>
 
+
                 <!-- Toppings Add/Remove Buttons -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
+
 
                     <Button
                         android:id="@+id/addTopping"
@@ -142,6 +156,7 @@
                         android:onClick="addSelectedTopping"
                         android:text="@string/add_topping" />
 
+
                     <Button
                         android:id="@+id/removeTopping"
                         android:layout_width="wrap_content"
@@ -149,6 +164,7 @@
                         android:onClick="removeSelectedTopping"
                         android:text="@string/remove_topping" />
                 </LinearLayout>
+
 
                 <!-- Selected Toppings -->
                 <LinearLayout
@@ -167,6 +183,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+
             <!-- Buttons: Back to Menu and Place Order -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,12 +192,14 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal">
 
+
                 <Button
                     android:id="@+id/menuButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="launchMenu"
                     android:text="@string/back_to_main_menu" />
+
 
                 <Button
                     android:id="@+id/placeOrderButton"
