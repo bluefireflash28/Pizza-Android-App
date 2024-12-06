@@ -12,7 +12,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button chicagoPizzaButton = findViewById(R.id.button);
         Button nyPizzaButton = findViewById(R.id.button2);
         Button checkAllOrdersButton = findViewById(R.id.button3);

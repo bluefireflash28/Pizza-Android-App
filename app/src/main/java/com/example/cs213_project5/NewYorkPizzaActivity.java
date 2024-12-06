@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ import java.util.Objects;
 
 public class NewYorkPizzaActivity extends AppCompatActivity {
     Object currentTopping = null;
+    private RecyclerView recyclerView;
+    private PizzaAdapter pizzaAdapter;
+    private List<PizzaType> pizzaList;
     CurrentOrderActivity currentOrderActivity = new CurrentOrderActivity();
     private int lastCheckedId = -1; // Track the previous checked ID
     @Override
@@ -43,6 +48,21 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        recyclerView = findViewById(R.id.pizzaRecyclerViewNY);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize pizza list
+        pizzaList = new List<>();
+        pizzaList.add(new PizzaType("Deluxe", R.drawable.deluxe_pizza));
+        pizzaList.add(new PizzaType("BBQ Chicken", R.drawable.bbq_chicken_pizza));
+        pizzaList.add(new PizzaType("Meatzza", R.drawable.meatzza_pizza));
+        pizzaList.add(new PizzaType("Build Your Own", R.drawable.build_your_own_pizza));
+
+        // Set the adapter for the RecyclerView
+        pizzaAdapter = new PizzaAdapter(pizzaList);
+        recyclerView.setAdapter(pizzaAdapter);
+
         RadioGroup radioGroup = findViewById(R.id.pizzaSize);
         // sets the available toppings
         ListView availableToppings = findViewById(R.id.availableToppings);

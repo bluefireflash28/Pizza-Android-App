@@ -20,12 +20,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ChicagoPizzaActivity extends AppCompatActivity {
     Object currentTopping = null;
+    private RecyclerView recyclerView;
+    private PizzaAdapter pizzaAdapter;
+    private List<PizzaType> pizzaList;
     CurrentOrderActivity currentOrderActivity = new CurrentOrderActivity();
     private int lastCheckedId = -1; // Track the previous checked ID
     @Override
@@ -33,6 +38,22 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chicago_pizza);
+
+        recyclerView = findViewById(R.id.pizzaRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize pizza list
+        pizzaList = new List<>();
+        pizzaList.add(new PizzaType("Deluxe", R.drawable.deluxe_pizza));
+        pizzaList.add(new PizzaType("BBQ Chicken", R.drawable.bbq_chicken_pizza));
+        pizzaList.add(new PizzaType("Meatzza", R.drawable.meatzza_pizza));
+        pizzaList.add(new PizzaType("Build Your Own", R.drawable.build_your_own_pizza));
+
+        // Set the adapter for the RecyclerView
+        pizzaAdapter = new PizzaAdapter(pizzaList);
+        recyclerView.setAdapter(pizzaAdapter);
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
