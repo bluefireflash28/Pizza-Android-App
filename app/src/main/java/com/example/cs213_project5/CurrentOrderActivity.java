@@ -20,6 +20,8 @@ import java.util.ArrayList;
 public class CurrentOrderActivity extends AppCompatActivity {
     int selectedIndex = -1;
     NYPizza nypizza = new NYPizza();
+    ChicagoPizza chicagoPizza = new ChicagoPizza();
+
     private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +128,58 @@ public class CurrentOrderActivity extends AppCompatActivity {
     public void launchMenu(View v){
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+    public Pizza addChicagoPizza(String size, String pizzaType) {
+
+        switch (pizzaType) {
+            case "Deluxe":
+                Pizza a = (chicagoPizza.createDeluxe(size));
+                a.setStyle("Chicago");
+                StateManager.getInstance().subtotal += a.price();
+                StateManager.getInstance().subtotal = roundToTwoDecimals(StateManager.getInstance().subtotal);
+                StateManager.getInstance().salesTax += a.price() * 0.06625;
+                StateManager.getInstance().salesTax = roundToTwoDecimals(StateManager.getInstance().salesTax);
+                StateManager.getInstance().orderTotal += a.price() * 1.06625;
+                StateManager.getInstance().orderTotal = roundToTwoDecimals(StateManager.getInstance().orderTotal);
+                return a;
+
+            case "BBQ Chicken":
+                Pizza b = (chicagoPizza.createBBQChicken(size));
+                b.setStyle("Chicago");
+                StateManager.getInstance().subtotal += b.price();
+                StateManager.getInstance().subtotal = Math.round((StateManager.getInstance().subtotal * 100.0)) / 100.0;
+                StateManager.getInstance().salesTax += b.price() * 0.06625;
+                StateManager.getInstance().salesTax = Math.round((StateManager.getInstance().salesTax * 100.0)) / 100.0;
+                StateManager.getInstance().orderTotal += b.price() * 1.06625;
+                StateManager.getInstance().orderTotal = Math.round((StateManager.getInstance().orderTotal * 100.0)) / 100.0;
+                return b;
+
+            case "Meatzza":
+                Pizza c = (chicagoPizza.createMeatzza(size));
+                c.setStyle("Chicago");
+                StateManager.getInstance().subtotal += c.price();
+                StateManager.getInstance().subtotal = Math.round((StateManager.getInstance().subtotal * 100.0)) / 100.0;
+                StateManager.getInstance().salesTax += c.price() * 0.06625;
+                StateManager.getInstance().salesTax = Math.round((StateManager.getInstance().salesTax * 100.0)) / 100.0;
+                StateManager.getInstance().orderTotal += c.price() * 1.06625;
+                StateManager.getInstance().orderTotal = Math.round((StateManager.getInstance().orderTotal * 100.0)) / 100.0;
+                return c;
+        }
+        return null;
+    }
+    public Pizza addChicagoPizzaBYO(String size, ArrayList<Topping> toppingsList) {
+        Pizza pizza = chicagoPizza.createBuildYourOwn(size);
+        for (Topping t : toppingsList) {
+            pizza.addTopping(t);
+        }
+        pizza.setStyle("Chicago");
+        StateManager.getInstance().subtotal += pizza.price();
+        StateManager.getInstance().subtotal = Math.round((StateManager.getInstance().subtotal * 100.0)) / 100.0;
+        StateManager.getInstance().salesTax += pizza.price() * 0.06625;
+        StateManager.getInstance().salesTax = Math.round((StateManager.getInstance().salesTax * 100.0)) / 100.0;
+        StateManager.getInstance().orderTotal += pizza.price() * 1.06625;
+        StateManager.getInstance().orderTotal = Math.round((StateManager.getInstance().orderTotal * 100.0)) / 100.0;
+        return pizza;
     }
     public Pizza addNYPizza(String size, String pizzaType){
 

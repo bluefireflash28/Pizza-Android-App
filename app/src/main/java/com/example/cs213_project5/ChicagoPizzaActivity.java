@@ -1,5 +1,7 @@
 package com.example.cs213_project5;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,23 +21,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 
 public class ChicagoPizzaActivity extends AppCompatActivity {
-
     Object currentTopping = null;
+    CurrentOrderActivity currentOrderActivity = new CurrentOrderActivity();
     private int lastCheckedId = -1; // Track the previous checked ID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_new_york_pizza);
+        setContentView(R.layout.activity_chicago_pizza);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -59,8 +55,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             // Display the selected topping
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
-
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         selectedToppings.setOnItemClickListener((parent, view, position, id) -> {
             // Get the selected item
             String selectedTopping = parent.getItemAtPosition(position).toString();
@@ -68,9 +63,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             // Display the selected topping
             Toast.makeText(getApplicationContext(), "Selected: " + selectedTopping, Toast.LENGTH_SHORT).show();
         });
-
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-
 // Set up the OnItemSelectedListener
         PizzaTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,11 +91,9 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
                 // Handle the case when no item is selected (optional)
             }
         });
-
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
                 // Call a method based on the selected RadioButton
                 if(checkedId==R.id.smallButton){
                     onSizeSelected(getString(R.string.small));
@@ -113,14 +104,75 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
+    public void placeOrder(View view) {
+        ArrayList<Pizza> orders = StateManager.getInstance().getCurrentOrders();
+        ArrayList<String> ordersStrings = StateManager.getInstance().getCurrentOrdersStrings();
+        if(getPizzaSize() ==null || getPizzaSize() == null){
+            Toast.makeText(getApplicationContext(), "Make a pizza", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!getPizzaType().equals("Build Your Own")) {
+            Pizza a = currentOrderActivity.addChicagoPizza(getPizzaSize(),getPizzaType());
+            showOrderPopup();
+            ordersStrings.add(a.toString());
+            orders.add(a);
+        } else {
+            ListView selectedToppings = findViewById(R.id.selectedToppings);
+            ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) selectedToppings.getAdapter();
+            ArrayList<Topping> toppingList = new ArrayList<>();
+            for (int i = 0; i < adapter.getCount(); i++) {
+                toppingList.add(adapter.getItem(i));
+            }
+            Pizza b = currentOrderActivity.addChicagoPizzaBYO(getPizzaSize(), toppingList);
+            showOrderPopup();
+            ordersStrings.add(b.toString());
+            orders.add(b);
+        }
+    }
+
+    public String getPizzaType(){
+        Spinner spinner = findViewById(R.id.PizzaTypes);
+        String type = spinner.getSelectedItem().toString();
+        return type;
+    }
+    public String getPizzaSize(){
+        RadioGroup radioGroup = findViewById(R.id.pizzaSize);
+        int checkedId = radioGroup.getCheckedRadioButtonId();
+        if(checkedId==R.id.smallButton){
+            return "small";
+        } else if(checkedId==R.id.mediumButton){
+            return "medium";
+        } else if(checkedId==R.id.largeButton){
+            return "large";
+        }
+        Log.d("TAG", "NULL SIZE RETURNED ");
+        return null;
+    }
+    public void showOrderPopup(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title")
+                .setMessage("Order Placed")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Action for "Cancel" button
+                        dialog.dismiss(); // Dismiss the dialog
+                    }
+                });
+
+// Show the dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     public void onSizeSelected(String size) {
         Spinner spinner = findViewById(R.id.PizzaTypes);
         String type = spinner.getSelectedItem().toString();
         Log.d("TAG", type);
 
-        ListView selectedToppingsListView = findViewById(R.id.selectedToppings);
+        ListView selectedToppingsListView = findViewById(R.id.selectedToppingsChicago);
         int numToppings = selectedToppingsListView.getAdapter() != null ? selectedToppingsListView.getAdapter().getCount() : 0;
         double toppingCost = 1.69 * numToppings; // Each topping costs 1.69
 
@@ -156,7 +208,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
     }
 
     public void updatePrice(String size, double small, double medium, double large){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         switch(size){
             case "Small":
                 priceText.setText(getString(R.string.pizzaPrice,small));
@@ -172,7 +224,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
 
     public void setCrust(String type){
         ListView availableToppings = findViewById(R.id.availableToppings);
-        TextView crust = findViewById(R.id.crustText);
+        TextView crust = findViewById(R.id.crustTextChicago);
         Button addTopping = (Button) findViewById(R.id.addTopping);
         Button removeTopping = (Button) findViewById(R.id.removeTopping);
         switch(type){
@@ -213,7 +265,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      */
     public void addToppings(){
         Spinner PizzaTypes = findViewById(R.id.PizzaTypes);
-        ListView selectedToppings = findViewById(R.id.selectedToppings);
+        ListView selectedToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayList<Topping> toppings;
         ArrayAdapter<Topping> adapter;
         switch(PizzaTypes.getSelectedItem().toString()){
@@ -260,13 +312,13 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      * add a Topping to the Build Your Own Pizza.
      */
     public void addSelectedTopping(View view){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         if(priceText.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
             return;
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();
@@ -316,7 +368,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
      * Method to remove Topping from Build Your Own Pizza.
      */
     public void removeSelectedTopping(View view){
-        TextView priceText = findViewById(R.id.priceText);
+        TextView priceText = findViewById(R.id.priceTextChicago);
         double [] arr = {8.99,10.99,12.99};
         if(priceText.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "Select Size", Toast.LENGTH_SHORT).show();
@@ -329,7 +381,7 @@ public class ChicagoPizzaActivity extends AppCompatActivity {
             }
         }
         ListView availableToppings = findViewById(R.id.availableToppings);
-        ListView chosenToppings = findViewById(R.id.selectedToppings);
+        ListView chosenToppings = findViewById(R.id.selectedToppingsChicago);
         ArrayAdapter<Topping> adapter = (ArrayAdapter<Topping>) availableToppings.getAdapter();
         ArrayAdapter<Topping> adapter2 = (ArrayAdapter<Topping>) chosenToppings.getAdapter();
         ArrayList<Topping> chooseToppings = new ArrayList<>();

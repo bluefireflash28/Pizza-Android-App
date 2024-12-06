@@ -155,7 +155,6 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
 // Show the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     public String getPizzaType(){
