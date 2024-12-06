@@ -48,7 +48,6 @@ public class NewYorkPizzaActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         recyclerView = findViewById(R.id.pizzaRecyclerViewNY);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
